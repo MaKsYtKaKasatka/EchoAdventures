@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изучение касаток и их звуков</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: 
+                linear-gradient(rgba(0, 80, 160, 0.45), rgba(0, 180, 200, 0.35)),
+                url('/static/more.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 24px;
+        }
+        h1 {
+            color: #00796b;
+            margin-bottom: 8px;
+        }
+        h2 {
+            color: #0097a7;
+            margin-top: 32px;
+        }
+        p {
+            color: #333;
+            font-size: 1.15em;
+        }
+        .orca-img {
+            width: 100%;
+            max-width: 400px;
+            display: block;
+            margin: 24px auto 16px auto;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+        }
+        .audio-sample {
+            margin: 16px 0;
+            background: #e0f2f1;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+        .footer {
+            text-align: center;
+            color: #888;
+            margin-top: 40px;
+            font-size: 0.95em;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px 0 24px;
+            background: transparent;
+        }
+        .logo {
+            font-size: 1.5em;
+            color: #00796b;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .nav {
+            display: flex;
+            gap: 18px;
+        }
+        .nav a {
+            text-decoration: none;
+            color: #0097a7;
+            background: #e0e5f2;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav a:hover {
+            background: #b2ebf2;
+            color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="container">
+        <h1>Добро пожаловать в мир касаток!</h1>
+        <img src="static/scale_1200.jpg" alt="Касатки" class="orca-img">
+        <p>
+            Касатка (Orcinus orca) — удивительное морское млекопитающее, известное своим интеллектом, сложной социальной структурой и уникальными звуками. На этом сайте вы сможете узнать больше о жизни касаток и послушать их настоящие голоса!
+        </p>
+        <h2>Звуки касаток</h2>
+        <div class="audio-sample">
+            <strong>Пример звука касатки:</strong><br>
+            <audio controls>
+                <source src="/static/1504175794_zvuk-kasatki.mp3" type="audio/mpeg">
+                Ваш браузер не поддерживает аудио.
+            </audio>
+        </div>
+        <p>
+            Касатки используют различные звуки для общения, охоты и навигации. <br>
+            На нашем сайте вы сможете узнать больше о типах звуков и их значении.
+        </p>
+        <div class="footer">
+            &copy; 2024 Изучение касаток и их звуков | EchoAdventures
+        </div>
+    </div>
+</body>
+</html> 
