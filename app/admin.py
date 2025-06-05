@@ -1,20 +1,20 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.utils.html import mark_safe
-from .models import Voice, Game, Test, Question, Answer, QuestionTest
+from .models import Voices, Game, Test, Question, Answer, QuestionTest
 
 User = get_user_model()
 
 
 # --- Voice ---
-@admin.register(Voice)
-class VoiceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'url', 'voice_preview')
+@admin.register(Voices)
+class VoicesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'file', 'voice_preview')
     search_fields = ('name',)
 
     def voice_preview(self, obj):
-        if obj.url:
-            return mark_safe(f'<audio controls><source src="{obj.url}"></audio>')
+        if obj.file:
+            return mark_safe(f'<audio controls><source src="{obj.file.url}"></audio>')
         return "Нет аудио"
     voice_preview.short_description = 'Превью'
 
@@ -71,8 +71,8 @@ class QuestionAdmin(admin.ModelAdmin):
     image_preview.short_description = 'Изображение'
 
     def voice_link(self, obj):
-        if obj.voice:
-            return mark_safe(f'<a href="{obj.voice.url}">Аудио</a>')
+        if obj.voice and obj.voice.file:
+            return mark_safe(f'<a href="{obj.voice.file.url}">Аудио</a>')
         return "Нет аудио"
     voice_link.short_description = 'Аудиофайл'
 

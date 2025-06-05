@@ -17,9 +17,15 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from app.views import home
+from app.views import home, sound_library, about
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("", home, name="home"),
     path("admin/", admin.site.urls),
+    path("library/", sound_library, name="sound_library"),
+    path("about/", about, name="about"),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

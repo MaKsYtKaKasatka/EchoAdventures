@@ -1,0 +1,102 @@
+{% include "header.html" %}
+<style>
+.sound-library-bg {
+    background: linear-gradient(rgba(0, 80, 160, 0.45), rgba(0, 180, 200, 0.35)), url('/static/more.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    padding-bottom: 40px;
+}
+.sound-library-title {
+    color: #01579b;
+    font-size: 2.5em;
+    text-shadow: 2px 4px 12px #fff, 0 2px 8px #0288d1;
+    margin-top: 0;
+    margin-bottom: 24px;
+    text-align: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 2px;
+}
+.sound-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 1100px;
+}
+.sound-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(0,80,160,0.10), 0 1.5px 0 #4fc3f7;
+    padding: 28px 32px 24px 32px;
+    width: 320px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.18s, box-shadow 0.18s;
+    border: 2px solid #4fc3f7;
+}
+.sound-card:hover {
+    transform: translateY(-8px) scale(1.04) rotate(-1deg);
+    box-shadow: 0 12px 32px rgba(0,80,160,0.18), 0 2px 0 #0288d1;
+    border-color: #0288d1;
+}
+.sound-card .orca-emoji {
+    font-size: 2.2em;
+    margin-bottom: 8px;
+    display: block;
+}
+.sound-card .sound-name {
+    color: #00796b;
+    font-size: 1.25em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+.sound-card audio {
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 8px;
+    background: #e0f7fa;
+}
+.sound-card .bubble {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    width: 28px;
+    height: 28px;
+    background: #b2ebf2;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px #4fc3f7;
+    opacity: 0.7;
+    animation: bubble-move 2.5s infinite ease-in-out;
+}
+@keyframes bubble-move {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px) scale(1.1); }
+    100% { transform: translateY(0); }
+}
+</style>
+<div class="sound-library-bg">
+    <div class="container" style="background: transparent; box-shadow: none;">
+        <h1 class="sound-library-title">🐬 Библиотека звуков касаток</h1>
+        {% if sounds %}
+            <ul class="sound-list">
+                {% for sound in sounds %}
+                    <li class="sound-card">
+                        <span class="orca-emoji">🐋</span>
+                        <span class="sound-name">{{ sound.name }}</span>
+                        <audio controls>
+                            <source src="{{ sound.file.url }}" type="audio/mpeg">
+                            Ваш браузер не поддерживает аудио.
+                        </audio>
+                        <span class="bubble"></span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="text-align:center; color:#01579b; font-size:1.2em;">В библиотеке пока нет звуков.</p>
+        {% endif %}
+    </div>
+</div>
+{% include "footer.html" %} 

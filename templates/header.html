@@ -4,10 +4,10 @@
         EchoAdventures
     </div>
     <nav class="nav">
-        <a href="/">Главная</a>
-        <a href="#about">О касатках</a>
-        <a href="#sounds">Звуки</a>
-        <a href="#contacts">Контакты</a>
+        <a href="/">🌊 Главная</a>
+        <a href="/about/">🐋 О касатках</a>
+        <a href="#contacts">📧 Контакты</a>
+        <a href="/library/">🎵 Библиотека звуков</a>
     </nav>
 </header>
 
@@ -17,44 +17,56 @@
     top: 0;
     left: 0;
     width: 100%;
-    max-width: 1420px;
+    max-width: 1800px;
     margin: 0 auto;
     z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255,255,255,0.97);
+    background: linear-gradient(90deg, #b2ebf2 0%, #4fc3f7 100%);
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);
     padding: 10px 32px;
-    min-height: 60px;
+    min-height: 64px;
+    border-bottom: 4px solid #0288d1;
+    overflow: visible;
 }
 .logo {
     display: flex;
     align-items: center;
-    font-size: 1.5em;
+    font-size: 1.7em;
     color: #00796b;
     font-weight: bold;
     letter-spacing: 1px;
     gap: 12px;
+    text-shadow: 0 2px 8px #b2ebf2;
 }
 .nav {
     display: flex;
-    gap: 18px;
+    gap: 22px;
 }
 .nav a {
     text-decoration: none;
-    color: #0097a7;
-    background: #e0f2f1;
-    padding: 8px 18px;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: background 0.2s, color 0.2s;
+    color: #01579b;
+    background: linear-gradient(120deg, #e0f7fa 60%, #b2ebf2 100%);
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.08em;
+    box-shadow: 0 2px 8px #b2ebf2;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border: 2px solid #4fc3f7;
 }
 .nav a:hover {
-    background: #b2ebf2;
-    color: #004d40;
+    background: #4fc3f7;
+    color: #fff;
+    transform: translateY(-2px) scale(1.06) rotate(-1deg);
+    box-shadow: 0 4px 16px #0288d1;
+    border-color: #0288d1;
 }
 body {
-    padding-top: 80px;
+    padding-top: 84px;
 }
 </style> 

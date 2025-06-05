@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from django.utils.html import mark_safe
 
 
-class Voice(models.Model):
+class Voices(models.Model):
     name = models.CharField(max_length=255)
-    url = models.URLField()
+    file = models.FileField(upload_to='voices/')
 
     def __str__(self):
         return self.name
@@ -31,7 +31,7 @@ class Test(models.Model):
 class Question(models.Model):
     text = models.TextField()
     image = models.ImageField(upload_to='questions/', null=True, blank=True)
-    voice = models.ForeignKey(Voice, on_delete=models.SET_NULL, null=True, blank=True)
+    voice = models.ForeignKey(Voices, on_delete=models.SET_NULL, null=True, blank=True)
     tests = models.ManyToManyField(Test, through='QuestionTest')
 
     def __str__(self):
