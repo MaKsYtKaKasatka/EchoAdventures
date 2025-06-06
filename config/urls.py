@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from app.views import home, sound_library, about
+from app.views import home, sound_library, about, tests, register_view, login_view, logout_view, profile, take_test
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,6 +26,12 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("library/", sound_library, name="sound_library"),
     path("about/", about, name="about"),
+    path("tests/", tests, name="tests"),
+    path("tests/<int:test_id>/", take_test, name="take_test"),
+    path("register/", register_view, name="register"),
+    path("login/", login_view, name="login"),
+    path("logout/", logout_view, name="logout"),
+    path("profile/", profile, name="profile"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

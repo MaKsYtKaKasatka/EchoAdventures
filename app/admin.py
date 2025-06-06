@@ -28,12 +28,21 @@ class GameAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
 
 
+# --- QuestionTest Inline ---
+class QuestionTestInline(admin.TabularInline):
+    model = QuestionTest
+    extra = 1
+    autocomplete_fields = ('question',)
+    fields = ('question', 'order')  # добавлен порядок
+
+
 # --- Test ---
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):
     list_display = ('test_id', 'name', 'question_count')
     search_fields = ('name',)
     list_display_links = ('test_id', 'name')
+    inlines = [QuestionTestInline]
 
     def question_count(self, obj):
         return obj.questiontest_set.count()
@@ -46,14 +55,6 @@ class AnswerInline(admin.TabularInline):
     extra = 1
     fields = ('text', 'is_correct')
     show_change_link = True
-
-
-# --- QuestionTest Inline ---
-class QuestionTestInline(admin.TabularInline):
-    model = QuestionTest
-    extra = 1
-    autocomplete_fields = ('question',)
-    fields = ('question', 'order')  # добавлен порядок
 
 
 # --- Question ---

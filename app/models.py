@@ -15,6 +15,7 @@ class Game(models.Model):
     name = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)  # Добавлено поле
+    percent = models.IntegerField(default=0)  # Процент прохождения теста
 
     def __str__(self):
         return self.name

@@ -1,6 +1,6 @@
 <header class="header">
     <div class="logo">
-        <img src="/static/Logo.png" alt="Логотип EchoAdventures" style="height:40px;vertical-align:middle;">
+        <img src="/static/Logo.png" alt="Логотип EchoAdventures" class="logo-img" style="height:40px;vertical-align:middle;">
         EchoAdventures
     </div>
     <nav class="nav">
@@ -8,6 +8,14 @@
         <a href="/about/">🐋 О касатках</a>
         <a href="#contacts">📧 Контакты</a>
         <a href="/library/">🎵 Библиотека звуков</a>
+        <a href="/tests/">📝 Тесты</a>
+        {% if user.is_authenticated %}
+            <a href="/profile/">👤 Профиль</a>
+            <a href="/logout/">🚪 Выйти</a>
+        {% else %}
+            <a href="/login/">Войти</a>
+            <a href="/register/">Регистрация</a>
+        {% endif %}
     </nav>
 </header>
 
@@ -66,7 +74,13 @@
     box-shadow: 0 4px 16px #0288d1;
     border-color: #0288d1;
 }
-body {
-    padding-top: 84px;
+.logo-img {
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 8px #b2ebf2;
+    border: 2px solid #b2ebf2;
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
 }
 </style> 
