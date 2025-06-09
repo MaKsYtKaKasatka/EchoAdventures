@@ -1,67 +1,11 @@
 {% include "header.html" %}
-<style>
-.login-bg {
-    background: linear-gradient(rgba(0, 80, 160, 0.45), rgba(0, 180, 200, 0.35)), url('/static/more.jpg') no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    padding-bottom: 40px;
-}
-.login-container {
-    max-width: 420px;
-    margin: 90px auto 40px auto;
-    background: rgba(255,255,255,0.97);
-    border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(0,80,160,0.13), 0 2px 0 #4fc3f7;
-    padding: 44px 36px 36px 36px;
-    position: relative;
-}
-.login-title {
-    color: #01579b;
-    margin-bottom: 18px;
-    font-size: 2em;
-    text-shadow: 2px 4px 12px #fff, 0 2px 8px #0288d1;
-    text-align: center;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-.login-form label {
-    color: #00796b;
-    font-weight: 500;
-    margin-bottom: 6px;
-    display: block;
-}
-.login-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 18px;
-    border-radius: 8px;
-    border: 1.5px solid #b2ebf2;
-    font-size: 1em;
-    background: #e0f7fa;
-}
-.login-form button {
-    width: 100%;
-    background: #4fc3f7;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 8px #b2ebf2;
-    transition: background 0.2s;
-}
-.login-form button:hover {
-    background: #0288d1;
-}
-</style>
-<div class="login-bg">
-    <div class="login-container">
+<div class="login-bg fade-in">
+    <div class="login-container card">
         <h1 class="login-title">Вход</h1>
         <form method="post" class="login-form">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Войти</button>
+            <button type="submit" class="btn">Войти</button>
         </form>
         <div style="text-align:center;margin-top:18px;">
             Нет аккаунта? <a href="/register/">Зарегистрироваться</a>

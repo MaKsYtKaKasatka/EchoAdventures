@@ -1,103 +1,16 @@
 {% include "header.html" %}
-<style>
-.about-bg {
-    background: linear-gradient(rgba(0, 80, 160, 0.45), rgba(0, 180, 200, 0.35)), url('/static/more.jpg') no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    padding-bottom: 40px;
-}
-.about-container {
-    max-width: 900px;
-    margin: 0 auto 40px auto;
-    background: rgba(255,255,255,0.96);
-    border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(0,80,160,0.13), 0 2px 0 #4fc3f7;
-    padding: 48px 36px 36px 36px;
-    position: relative;
-    padding-top: 84px;
-}
-.about-title {
-    color: #01579b;
-    font-size: 2.3em;
-    text-shadow: 2px 4px 12px #fff, 0 2px 8px #0288d1;
-    letter-spacing: 2px;
-    text-align: center;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin-bottom: 18px;
-}
-.about-orca-img {
-    width: 100%;
-    max-width: 420px;
-    display: block;
-    margin: 24px auto 18px auto;
-    border-radius: 18px;
-    box-shadow: 0 4px 18px rgba(0,80,160,0.13);
-    border: 3px solid #b2ebf2;
-}
-.about-facts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    justify-content: center;
-    margin: 36px 0 0 0;
-}
-.about-fact-block {
-    background: linear-gradient(120deg, #e0f7fa 60%, #b2ebf2 100%);
-    border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(0,80,160,0.08);
-    padding: 22px 28px;
-    min-width: 220px;
-    max-width: 320px;
-    font-size: 1.08em;
-    color: #00796b;
-    text-align: center;
-    font-weight: 500;
-    position: relative;
-}
-.about-fact-block:before {
-    content: '🌊';
-    position: absolute;
-    left: 16px;
-    top: 10px;
-    font-size: 1.2em;
-    opacity: 0.25;
-}
-.about-fact-block:last-child:before {
-    content: '🐟';
-}
-.about-fact-block:first-child:before {
-    content: '🐋';
-}
-.about-section {
-    margin: 32px 0 0 0;
-    font-size: 1.13em;
-    color: #01579b;
-    background: #e0f7fa;
-    border-radius: 14px;
-    padding: 22px 28px;
-    box-shadow: 0 2px 8px #b2ebf2;
-}
-.about-section-title {
-    color: #00796b;
-    font-size: 1.18em;
-    font-weight: bold;
-    margin-bottom: 8px;
-    margin-top: 18px;
-    display: block;
-}
-</style>
-<div class="about-bg">
-    <div class="about-container">
+<div class="about-bg fade-in">
+    <div class="about-container container">
         <h1 class="about-title">🐋 О касатках</h1>
         <img src="/static/Family.jpg" alt="Семья касаток" class="about-orca-img">
         <div class="about-facts">
-            <div class="about-fact-block">Касатки — крупнейшие представители семейства дельфиновых</div>
-            <div class="about-fact-block">Они могут достигать длины до 9 метров и веса более 5 тонн</div>
-            <div class="about-fact-block">Касатки живут в сложных социальных группах — стаях</div>
-            <div class="about-fact-block">Каждая стая имеет свой уникальный «язык» звуков</div>
-            <div class="about-fact-block">Касатки — одни из самых умных и обучаемых морских животных</div>
+            <div class="about-fact-block card">Касатки — крупнейшие представители семейства дельфиновых</div>
+            <div class="about-fact-block card">Они могут достигать длины до 9 метров и веса более 5 тонн</div>
+            <div class="about-fact-block card">Касатки живут в сложных социальных группах — стаях</div>
+            <div class="about-fact-block card">Каждая стая имеет свой уникальный «язык» звуков</div>
+            <div class="about-fact-block card">Касатки — одни из самых умных и обучаемых морских животных</div>
         </div>
-        <div class="about-section">
+        <div class="about-section card">
             <span class="about-section-title">Интересные факты:</span>
             • Касатки могут охотиться на крупных морских животных, включая тюленей и даже китов.<br>
             • Они способны путешествовать на тысячи километров, мигрируя по океанам.<br>
@@ -105,19 +18,19 @@
             • В дикой природе касатки могут жить до 50-80 лет.<br>
             • Их черно-белая окраска помогает маскироваться в воде.<br>
         </div>
-        <div class="about-section">
+        <div class="about-section card">
             <span class="about-section-title">Питание и охота:</span>
             Касатки — одни из самых универсальных хищников океана. Их рацион зависит от региона и стаи: одни предпочитают рыбу, другие — морских млекопитающих. Они охотятся коллективно, используя сложные стратегии, например, создают волны, чтобы сбросить тюленей с льдин.<br>
         </div>
-        <div class="about-section">
+        <div class="about-section card">
             <span class="about-section-title">Общение и интеллект:</span>
             Касатки обладают развитым мозгом и сложной системой коммуникации. Каждая стая использует свой уникальный набор звуков — своего рода "язык". Они способны обучаться, передавать знания и даже узнавать себя в зеркале.<br>
         </div>
-        <div class="about-section">
+        <div class="about-section card">
             <span class="about-section-title">Роль в культуре и науке:</span>
             Касатки часто становятся героями фильмов, книг и научных исследований. Их изучают для понимания социальных структур, коммуникации и даже для разработки новых методов эхолокации.<br>
         </div>
-        <div class="about-section">
+        <div class="about-section card">
             <span class="about-section-title">Охрана и экология:</span>
             Несмотря на свою силу, касатки уязвимы перед деятельностью человека: загрязнение океанов, сокращение популяций добычи и шумовое загрязнение влияют на их жизнь. Во многих странах касатки находятся под охраной.<br>
         </div>

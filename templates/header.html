@@ -1,12 +1,25 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoAdventures</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+      // Тема по умолчанию
+      if (localStorage.getItem('theme')) {
+        document.documentElement.setAttribute('data-theme', localStorage.getItem('theme'));
+      }
+    </script>
+</head>
+
+<div class="site-wrapper">
 <header class="header">
     <div class="logo">
-        <img src="/static/Logo.png" alt="Логотип EchoAdventures" class="logo-img" style="height:40px;vertical-align:middle;">
+        <img src="/static/Logo.png" alt="Логотип EchoAdventures" class="logo-img">
         EchoAdventures
     </div>
     <nav class="nav">
-        <a href="/">🌊 Главная</a>
+        <a href="/"{% if request.path == '/' %} class="active"{% endif %}>🌊 Главная</a>
         <a href="/about/">🐋 О касатках</a>
-        <a href="#contacts">📧 Контакты</a>
         <a href="/library/">🎵 Библиотека звуков</a>
         <a href="/tests/">📝 Тесты</a>
         {% if user.is_authenticated %}
@@ -17,7 +30,11 @@
             <a href="/register/">Регистрация</a>
         {% endif %}
     </nav>
+    <div class="theme-switch" id="themeSwitch" onclick="toggleTheme()">
+      <span class="switch-icon" id="themeIcon">🌙</span>
+    </div>
 </header>
+</div>
 
 <style>
 .header {
@@ -65,7 +82,6 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    border: 2px solid #4fc3f7;
 }
 .nav a:hover {
     background: #4fc3f7;
@@ -83,4 +99,25 @@
     width: 40px;
     object-fit: cover;
 }
-</style> 
+</style>
+
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const current = root.getAttribute('data-theme');
+  if (current === 'dark') {
+    root.setAttribute('data-theme', '');
+    localStorage.setItem('theme', '');
+    document.getElementById('themeIcon').textContent = '🌙';
+  } else {
+    root.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+    document.getElementById('themeIcon').textContent = '🌞';
+  }
+}
+window.addEventListener('DOMContentLoaded', function() {
+  if (document.documentElement.getAttribute('data-theme') === 'dark') {
+    document.getElementById('themeIcon').textContent = '🌞';
+  }
+});
+</script> 

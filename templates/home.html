@@ -1,126 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Изучение касаток и их звуков</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(rgba(0, 80, 160, 0.45), rgba(0, 180, 200, 0.35)), url('/static/more.jpg') no-repeat center center fixed;
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-        }
-        .main-wave {
-            width: 100%;
-            height: 110px;
-            background: url('data:image/svg+xml;utf8,<svg width="100%25" height="100" viewBox="0 0 1440 110" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 60C120 100 360 120 720 60C1080 0 1320 100 1440 60V110H0V60Z" fill="%234fc3f7"/></svg>') repeat-x bottom;
-            background-size: cover;
-            margin-bottom: -40px;
-        }
-        .container {
-            max-width: 850px;
-            margin: 70px auto 40px auto;
-            background: rgba(255,255,255,0.93);
-            border-radius: 28px;
-            box-shadow: 0 8px 32px rgba(0,80,160,0.13), 0 2px 0 #4fc3f7;
-            padding: 48px 36px 36px 36px;
-            position: relative;
-            padding-top: 84px;
-        }
-        h1 {
-            color: #01579b;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-            text-shadow: 2px 4px 12px #fff, 0 2px 8px #0288d1;
-            letter-spacing: 2px;
-            text-align: center;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
-        h2 {
-            color: #0097a7;
-            margin-top: 36px;
-            text-align: center;
-            font-size: 1.5em;
-        }
-        p {
-            color: #333;
-            font-size: 1.18em;
-            text-align: center;
-            margin-bottom: 18px;
-        }
-        .orca-img {
-            width: 100%;
-            max-width: 420px;
-            display: block;
-            margin: 28px auto 18px auto;
-            border-radius: 18px;
-            box-shadow: 0 4px 18px rgba(0,80,160,0.13);
-            border: 3px solid #b2ebf2;
-        }
-        .audio-sample {
-            margin: 18px auto 0 auto;
-            background: #e0f2f1;
-            padding: 18px 22px 14px 22px;
-            border-radius: 14px;
-            max-width: 440px;
-            box-shadow: 0 2px 8px #4fc3f7;
-            text-align: center;
-            font-size: 1.08em;
-        }
-        .footer {
-            text-align: center;
-            color: #888;
-            margin-top: 40px;
-            font-size: 0.95em;
-        }
-        .orca-emoji {
-            font-size: 2.5em;
-            display: block;
-            text-align: center;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 2px 8px #4fc3f7);
-        }
-        .main-facts {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            justify-content: center;
-            margin: 36px 0 0 0;
-        }
-        .fact-block {
-            background: linear-gradient(120deg, #e0f7fa 60%, #b2ebf2 100%);
-            border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(0,80,160,0.08);
-            padding: 22px 28px;
-            min-width: 220px;
-            max-width: 320px;
-            font-size: 1.08em;
-            color: #00796b;
-            text-align: center;
-            font-weight: 500;
-            position: relative;
-        }
-        .fact-block:before {
-            content: '🌊';
-            position: absolute;
-            left: 16px;
-            top: 10px;
-            font-size: 1.2em;
-            opacity: 0.25;
-        }
-        .fact-block:last-child:before {
-            content: '🐟';
-        }
-        .fact-block:first-child:before {
-            content: '🐋';
-        }
-    </style>
-</head>
+{% include "header.html" %}
 <body>
-    {% include "header.html" %}
-    <div class="container">
+    <div class="container fade-in">
         <span class="orca-emoji">🐬</span>
         <h1>Добро пожаловать в мир касаток!</h1>
         <img src="static/scale_1200.jpg" alt="Касатки" class="orca-img">
@@ -133,7 +15,7 @@
             <div class="fact-block">Касатки могут путешествовать на тысячи километров!</div>
         </div>
         <h2>Звуки касаток</h2>
-        <div class="audio-sample">
+        <div class="audio-sample card">
             <strong>Пример звука касатки:</strong><br>
             <audio controls>
                 <source src="/static/1504175794_zvuk-kasatki.mp3" type="audio/mpeg">

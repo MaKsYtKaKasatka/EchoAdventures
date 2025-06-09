@@ -1,147 +1,48 @@
 {% include "header.html" %}
-<style>
-.profile-bg {
-    background: linear-gradient(rgba(0, 80, 160, 0.45), rgba(0, 180, 200, 0.35)), url('/static/more.jpg') no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    padding-bottom: 40px;
-}
-.profile-container {
-    max-width: 540px;
-    margin: 90px auto 40px auto;
-    background: rgba(255,255,255,0.98);
-    border-radius: 32px;
-    box-shadow: 0 12px 36px rgba(0,80,160,0.15), 0 2px 0 #4fc3f7;
-    padding: 0 0 36px 0;
-    position: relative;
-    overflow: hidden;
-}
-.profile-header {
-    background: linear-gradient(90deg, #b2ebf2 0%, #4fc3f7 100%);
-    border-radius: 32px 32px 0 0;
-    padding: 38px 36px 24px 36px;
-    text-align: center;
-    box-shadow: 0 2px 12px #b2ebf2;
-    position: relative;
-}
-.profile-avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: #e0f7fa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.7em;
-    margin: 0 auto 10px auto;
-    box-shadow: 0 2px 12px #b2ebf2;
-    border: 3px solid #4fc3f7;
-}
-.profile-username {
-    color: #01579b;
-    font-size: 1.45em;
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-    text-shadow: 2px 4px 12px #fff, 0 2px 8px #0288d1;
-}
-.profile-actions {
-    margin-top: 8px;
-    font-size: 1em;
-}
-.profile-actions a {
-    color: #0288d1;
-    text-decoration: underline;
-    margin: 0 8px;
-    font-weight: 500;
-}
-.profile-stats {
-    margin: 24px 0 0 0;
-    text-align: center;
-    color: #00796b;
-    font-size: 1.13em;
-    background: #e0f7fa;
-    border-radius: 16px;
-    padding: 16px 0 10px 0;
-    box-shadow: 0 2px 8px #b2ebf2;
-    max-width: 340px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.profile-progress-title {
-    color: #0288d1;
-    text-align: center;
-    font-size: 1.18em;
-    margin: 36px 0 18px 0;
-    letter-spacing: 1px;
-    font-weight: 600;
-}
-.games-list {
-    margin-top: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-.game-card {
-    background: linear-gradient(120deg, #e0f7fa 60%, #b2ebf2 100%);
-    border-radius: 18px;
-    box-shadow: 0 2px 12px rgba(0,80,160,0.10);
-    padding: 18px 28px 14px 28px;
-    color: #00796b;
-    font-size: 1.08em;
-    font-weight: 500;
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    border-left: 6px solid #4fc3f7;
-    position: relative;
-    transition: box-shadow 0.18s;
-}
-.game-card:before {
-    content: '🎯';
-    font-size: 1.5em;
-    margin-right: 8px;
-    display: block;
-}
-.game-card b {
-    color: #0288d1;
-}
-.no-games {
-    text-align: center;
-    color: #888;
-    margin-top: 18px;
-}
-</style>
-<div class="profile-bg">
-    <div class="profile-container">
-        <div class="profile-header">
-            <div class="profile-avatar">👤</div>
-            <div class="profile-username">{{ user.username }}</div>
-            <div class="profile-actions">
-                <a href="/logout/">Выйти</a>
-            </div>
-        </div>
-        <div class="profile-stats">
-            <b>Пройдено тестов:</b> {{ games|length }}<br>
-            <b>Последний тест:</b> {% if games %}{{ games.0.name }} ({{ games.0.created_at|date:"d.m.Y H:i" }}){% else %}—{% endif %}
-        </div>
-        <div class="profile-progress-title">Ваш прогресс по тестам</div>
-        <div class="games-list">
-            {% if games %}
-                {% for game in games %}
-                    <div class="game-card">
-                        <div>
-                            <b>Тест:</b> {{ game.name }}<br>
-                            <b>Дата:</b> {{ game.created_at|date:"d.m.Y H:i" }}<br>
-                            <b>Результат:</b> {{ game.percent }}%
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="no-games">Вы ещё не проходили тесты.</div>
-            {% endif %}
-        </div>
+<div class="profile-bg fade-in">
+  <div class="profile-card">
+    <div class="profile-avatar">
+      <img src="/static/Logo.png" alt="Аватар" />
     </div>
+    <div class="profile-info">
+      <div class="profile-username">{{ user.username }}</div>
+      <div class="profile-actions">
+        <a href="/logout/" class="btn profile-logout">Выйти</a>
+      </div>
+    </div>
+  </div>
+  <div class="profile-stats-row">
+    <div class="profile-stats-card">
+      <span class="profile-stats-icon">🧩</span>
+      <div>
+        <div class="profile-stats-label">Пройдено тестов</div>
+        <div class="profile-stats-value">{{ games|length }}</div>
+      </div>
+    </div>
+    <div class="profile-stats-card">
+      <span class="profile-stats-icon">⏰</span>
+      <div>
+        <div class="profile-stats-label">Последний тест</div>
+        <div class="profile-stats-value">{% if games %}{{ games.0.name }}<br><span class="profile-stats-date">{{ games.0.created_at|date:"d.m.Y H:i" }}</span>{% else %}—{% endif %}</div>
+      </div>
+    </div>
+  </div>
+  <div class="profile-progress-title">Ваш прогресс по тестам</div>
+  <div class="profile-progress-list">
+    {% if games %}
+      {% for game in games %}
+        <div class="profile-progress-card">
+          <div class="progress-test-name">📝 {{ game.name }}</div>
+          <div class="progress-test-date">{{ game.created_at|date:"d.m.Y H:i" }}</div>
+          <div class="progress-test-result">Результат: <b>{{ game.percent }}%</b></div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="profile-no-tests">
+        <span class="no-tests-emoji">🌊</span>
+        <div>Вы ещё не проходили тесты.<br>Начните с любого теста на сайте!</div>
+      </div>
+    {% endif %}
+  </div>
 </div>
 {% include "footer.html" %} 

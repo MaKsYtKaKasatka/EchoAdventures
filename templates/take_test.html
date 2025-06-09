@@ -1,106 +1,23 @@
 {% include "header.html" %}
-<style>
-.take-test-bg {
-    background: linear-gradient(rgba(0, 80, 160, 0.45), rgba(0, 180, 200, 0.35)), url('/static/more.jpg') no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    padding-bottom: 40px;
-}
-.take-test-container {
-    max-width: 600px;
-    margin: 90px auto 40px auto;
-    background: rgba(255,255,255,0.98);
-    border-radius: 28px;
-    box-shadow: 0 8px 32px rgba(0,80,160,0.13), 0 2px 0 #4fc3f7;
-    padding: 44px 36px 36px 36px;
-    position: relative;
-}
-.take-test-title {
-    color: #01579b;
-    margin-bottom: 18px;
-    font-size: 2em;
-    text-shadow: 2px 4px 12px #fff, 0 2px 8px #0288d1;
-    text-align: center;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-.take-test-question {
-    color: #00796b;
-    font-size: 1.18em;
-    margin-bottom: 18px;
-    text-align: center;
-    font-weight: 500;
-}
-.take-test-img {
-    width: 100%;
-    max-width: 340px;
-    display: block;
-    margin: 18px auto 18px auto;
-    border-radius: 16px;
-    box-shadow: 0 4px 18px rgba(0,80,160,0.13);
-    border: 3px solid #b2ebf2;
-}
-.take-test-audio {
-    display: block;
-    margin: 0 auto 18px auto;
-}
-.take-test-answers {
-    margin: 24px 0 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-.take-test-answers label {
-    background: #e0f7fa;
-    border-radius: 10px;
-    padding: 12px 18px;
-    font-size: 1.08em;
-    color: #00796b;
-    cursor: pointer;
-    box-shadow: 0 2px 8px #b2ebf2;
-    transition: background 0.18s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.take-test-answers input[type=radio] {
-    accent-color: #0288d1;
-    margin-right: 8px;
-}
-.take-test-btn {
-    width: 100%;
-    background: #4fc3f7;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 14px;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 8px #b2ebf2;
-    margin-top: 24px;
-    transition: background 0.2s;
-}
-.take-test-btn:hover {
-    background: #0288d1;
-}
-</style>
-<div class="take-test-bg">
-    <div class="take-test-container">
-        <h1 class="take-test-title">{{ test.name }}</h1>
+<div class="take-test-bg fade-in">
+    <div class="take-test-container-modern">
+        <h1 class="take-test-title">📝 {{ test.name }}</h1>
         {% if result %}
-            <div style="text-align:center;margin:40px 0 30px 0;">
-                <div style="font-size:2.2em;color:#0288d1;font-weight:bold;">Результат</div>
-                <div style="font-size:1.3em;margin:18px 0 10px 0;">Вы ответили правильно на <b>{{ result.correct }}</b> из <b>{{ result.total }}</b> вопросов</div>
-                <div style="font-size:1.1em;color:#00796b;">Процент правильных: <b>{{ result.percent }}%</b></div>
-                <a href="/tests/" style="display:inline-block;margin-top:28px;padding:12px 32px;background:#4fc3f7;color:#fff;border-radius:10px;text-decoration:none;font-weight:600;box-shadow:0 2px 8px #b2ebf2;transition:background 0.2s;">К списку тестов</a>
+            <div class="take-test-result-card">
+                <div class="take-test-result-title">Результат</div>
+                <div class="take-test-result-score">Вы ответили правильно на <b>{{ result.correct }}</b> из <b>{{ result.total }}</b> вопросов</div>
+                <div class="take-test-result-percent">Процент правильных: <b>{{ result.percent }}%</b></div>
+                <a href="/tests/" class="btn take-test-back-btn">К списку тестов</a>
             </div>
         {% elif no_questions %}
-            <div style="color:#888;text-align:center;font-size:1.2em;">В этом тесте пока нет вопросов.</div>
+            <div class="take-test-empty">
+                <span class="take-test-empty-emoji">🌊</span>
+                <div>В этом тесте пока нет вопросов.</div>
+            </div>
         {% else %}
-            <form method="post">
+            <form method="post" class="take-test-form">
                 {% csrf_token %}
-                {# Здесь будет выводиться текущий вопрос #}
-                <div style="color:#888;font-size:1.1em;margin-bottom:8px;">Вопрос {{ q_idx }} из {{ total_questions }}</div>
+                <div class="take-test-progress">Вопрос {{ q_idx }} из {{ total_questions }}</div>
                 <div class="take-test-question">{{ questions.0.text }}</div>
                 {% if questions.0.image %}
                     <img src="{{ questions.0.image.url }}" class="take-test-img" alt="Вопрос">
@@ -113,10 +30,10 @@
                 {% endif %}
                 <div class="take-test-answers">
                     {% for answer in questions.0.answers.all %}
-                        <label><input type="radio" name="answer" value="{{ answer.id }}"> {{ answer.text }}</label>
+                        <label class="take-test-answer-option"><input type="radio" name="answer" value="{{ answer.id }}"> {{ answer.text }}</label>
                     {% endfor %}
                 </div>
-                <button type="submit" class="take-test-btn">Ответить</button>
+                <button type="submit" class="btn take-test-btn">Ответить</button>
             </form>
         {% endif %}
     </div>
