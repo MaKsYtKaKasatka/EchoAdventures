@@ -23,10 +23,10 @@
         <a href="/library/">🎵 Библиотека звуков</a>
         <a href="/tests/">📝 Тесты</a>
         {% if user.is_authenticated %}
-            <a href="/profile/">👤 Профиль</a>
+            <a href="/profile/" class="auth-sep">👤 Профиль</a>
             <a href="/logout/">🚪 Выйти</a>
         {% else %}
-            <a href="/login/">Войти</a>
+            <a href="/login/" class="auth-sep">Войти</a>
             <a href="/register/">Регистрация</a>
         {% endif %}
     </nav>
@@ -37,70 +37,34 @@
 </div>
 
 <style>
+/* Оставляю только цветовые/фоновые стили, если нужно, все размеры и отступы убраны */
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    max-width: 1800px;
-    margin: 0 auto;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     background: linear-gradient(90deg, #b2ebf2 0%, #4fc3f7 100%);
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-    padding: 18px 40px;
-    min-height: 80px;
     border-bottom: 4px solid #0288d1;
     overflow: visible;
 }
 .logo {
-    display: flex;
-    align-items: center;
-    font-size: 1.7em;
     color: #00796b;
-    font-weight: bold;
-    letter-spacing: 1px;
-    gap: 12px;
     text-shadow: 0 2px 8px #b2ebf2;
 }
-.nav {
-    display: flex;
-    gap: 22px;
-}
 .nav a {
-    text-decoration: none;
-    color: #01579b;
     background: linear-gradient(120deg, #e0f7fa 60%, #b2ebf2 100%);
-    padding: 10px 22px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 1.08em;
-    box-shadow: none;
+    color: #01579b;
     border: 1.5px solid #b2ebf2;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    transition: background 0.2s, color 0.2s, border-color 0.2s, margin 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 7px;
 }
 .nav a:hover {
     background: #4fc3f7;
     color: #fff;
-    transform: rotate(-0.5deg);
     border: 1.5px solid #b2ebf2;
-    box-shadow: none;
+}
+.nav a.auth-sep {
+    margin-left: 32px;
 }
 .logo-img {
-    border-radius: 50%;
     background: #fff;
     box-shadow: 0 2px 8px #b2ebf2;
     border: 2px solid #b2ebf2;
-    height: 40px;
-    width: 40px;
-    object-fit: cover;
 }
 </style>
 
