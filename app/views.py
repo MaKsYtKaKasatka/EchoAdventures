@@ -75,7 +75,16 @@ def logout_view(request):
 @login_required
 def profile(request):
     games = Game.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'profile.html', {'games': games})
+    completed_tests = games.count()
+    if completed_tests == 0:
+        orca_status = "Малыш касатка"
+    elif completed_tests == 1:
+        orca_status = "Юная касатка"
+    elif completed_tests <= 3:
+        orca_status = "Опытная касатка"
+    else:
+        orca_status = "Супер касатка"
+    return render(request, 'profile.html', {'games': games, 'orca_status': orca_status})
 
 @login_required
 def take_test(request, test_id):
