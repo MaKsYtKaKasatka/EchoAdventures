@@ -800,6 +800,12 @@ button:focus, button:active,
   font-size: 2.2em;
   margin-bottom: 6px;
 }
+.sound-modern-card.listened {
+  background: #e8fbe8;
+  border-color: #27ae60;
+  box-shadow: 0 2px 12px #b2ebf2, 0 0 0 2px #27ae6033;
+  position: relative;
+}
 @media (max-width: 700px) {
   .tests-list-modern, .sound-list-modern {
     flex-direction: column;

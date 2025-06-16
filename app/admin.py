@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.utils.html import mark_safe
 from .models import Voices, Game, Test, Question, Answer, QuestionTest
+from .django_models import Achievement, UserAchievement, UserProgress
 
 User = get_user_model()
 
@@ -90,3 +91,36 @@ class QuestionTestAdmin(admin.ModelAdmin):
     search_fields = ('question__text', 'test__name')
     autocomplete_fields = ('test', 'question')
     list_editable = ('order',)
+
+
+@admin.register(Achievement)
+class AchievementAdmin(admin.ModelAdmin):
+    list_display = ('name', 'type', 'requirement', 'xp_reward', 'icon_preview')
+    list_filter = ('type',)
+    search_fields = ('name', 'description')
+
+    def icon_preview(self, obj):
+        if obj.icon:
+            return mark_safe(f'<img src="{obj.icon.url}" width="50" height="50" />')
+        return "Нет иконки"
+    icon_preview.short_description = 'Иконка'
+
+
+@admin.register(UserAchievement)
+class UserAchievementAdmin(admin.ModelAdmin):
+    list_display = ('user', 'achievement', 'date_earned', 'progress')
+    list_filter = ('achievement__type', 'date_earned')
+    search_fields = ('user__username', 'achievement__name')
+    readonly_fields = ('date_earned',)
+
+
+@admin.register(UserProgress)
+class UserProgressAdmin(admin.ModelAdmin):
+    list_display = ('user', 'level', 'xp', 'progress_percentage', 'sounds_listened', 'tests_completed')
+    list_filter = ('level',)
+    search_fields = ('user__username',)
+    readonly_fields = ('xp', 'level', 'progress_percentage')
+
+    def progress_percentage(self, obj):
+        return f"{obj.progress_percentage:.1f}%"
+    progress_percentage.short_description = 'Прогресс до следующего уровня'

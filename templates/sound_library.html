@@ -5,12 +5,13 @@
         <div class="sound-list-modern">
             {% if sounds %}
                 {% for sound in sounds %}
-                    <div class="sound-modern-card">
+                    <div class="sound-modern-card{% if sound.id in listened_ids %} listened{% endif %}" data-sound-id="{{ sound.id }}">
                         <div class="sound-modern-header">
                             <span class="sound-modern-icon">🐋</span>
                             <span class="sound-modern-title">{{ sound.name }}</span>
+                            <span class="sound-listened-mark" {% if sound.id not in listened_ids %}style="display:none"{% endif %} title="Прослушано">✔️</span>
                         </div>
-                        <audio controls class="sound-modern-audio">
+                        <audio controls class="sound-modern-audio" data-sound-id="{{ sound.id }}">
                             <source src="{{ sound.file.url }}" type="audio/mpeg">
                             Ваш браузер не поддерживает аудио.
                         </audio>
@@ -25,4 +26,45 @@
         </div>
     </div>
 </div>
-{% include "footer.html" %} 
+{% include "footer.html" %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.sound-modern-audio').forEach(function(audio) {
+        audio.addEventListener('ended', function() {
+            var soundId = this.getAttribute('data-sound-id');
+            var card = this.closest('.sound-modern-card');
+            if (card.classList.contains('listened')) return; // Уже отмечено
+            fetch(window.location.pathname, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: 'sound_id=' + encodeURIComponent(soundId)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    card.classList.add('listened');
+                    card.querySelector('.sound-listened-mark').style.display = '';
+                }
+            });
+        });
+    });
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script> 

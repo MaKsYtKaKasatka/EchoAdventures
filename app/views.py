@@ -5,8 +5,10 @@ from django.shortcuts import redirect
 from .forms import RegisterForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
+from .services import AchievementService
+from .django_models import UserProgress, UserAchievement, UserSound
 
 # Create your views here.
 
@@ -17,12 +19,18 @@ def home(request):
     sounds = Voices.objects.all()
     return render(request, 'home.html', {'sounds': sounds})
 
+@login_required
 def sound_library(request):
     """
     Страница библиотеки звуков касаток
     """
     sounds = Voices.objects.all()
-    return render(request, 'sound_library.html', {'sounds': sounds})
+    listened_ids = list(UserSound.objects.filter(user=request.user).values_list('sound_id', flat=True))
+    if request.method == 'POST' and 'sound_id' in request.POST:
+        # Записываем уникальное прослушивание звука
+        AchievementService.record_sound_listened(request.user, sound_id=request.POST['sound_id'])
+        return JsonResponse({'status': 'success'})
+    return render(request, 'sound_library.html', {'sounds': sounds, 'listened_ids': listened_ids})
 
 def about(request):
     """
@@ -74,22 +82,25 @@ def logout_view(request):
 
 @login_required
 def profile(request):
+    """Профиль пользователя с достижениями и прогрессом"""
     games = Game.objects.filter(user=request.user).order_by('-created_at')
     completed_tests = games.count()
-    if completed_tests == 0:
-        orca_status = "Малыш касатка"
-    elif completed_tests == 1:
-        orca_status = "Юная касатка"
-    elif completed_tests <= 3:
-        orca_status = "Опытная касатка"
-    else:
-        orca_status = "Супер касатка"
-    return render(request, 'profile.html', {'games': games, 'orca_status': orca_status})
+    
+    # Получаем прогресс и достижения пользователя
+    progress = AchievementService.get_user_progress(request.user)
+    achievements = AchievementService.get_user_achievements(request.user)
+    
+    context = {
+        'games': games,
+        'progress': progress,
+        'achievements': achievements,
+        'completed_tests': completed_tests,
+    }
+    return render(request, 'profile.html', context)
 
 @login_required
 def take_test(request, test_id):
     test = get_object_or_404(Test, test_id=test_id)
-    # Получаем вопросы только через связь test.questions (ManyToMany)
     questions = test.question_set.all().order_by('questiontest__order')
     if not questions.exists():
         return render(request, 'take_test.html', {'test': test, 'no_questions': True})
@@ -119,6 +130,10 @@ def take_test(request, test_id):
         game, created = Game.objects.get_or_create(name=test.name, user=request.user)
         game.percent = percent
         game.save()
+        
+        # Записываем завершение теста и обновляем прогресс
+        AchievementService.record_test_completed(request.user, correct, total_questions)
+        
         result = {
             'correct': correct,
             'total': total_questions,
@@ -131,3 +146,13 @@ def take_test(request, test_id):
 
     question = questions[q_idx]
     return render(request, 'take_test.html', {'test': test, 'questions': [question], 'q_idx': q_idx+1, 'total_questions': total_questions})
+
+@login_required
+def achievements(request):
+    """Страница достижений пользователя"""
+    achievements = AchievementService.get_user_achievements(request.user)
+    progress = AchievementService.get_user_progress(request.user)
+    return render(request, 'achievements.html', {
+        'achievements': achievements,
+        'progress': progress
+    })

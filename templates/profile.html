@@ -1,51 +1,100 @@
-{% include "header.html" %}
-<div class="profile-bg fade-in">
-  <div class="profile-card">
-    <div class="profile-avatar">
-      <img src="/static/Logo.png" alt="Аватар" />
-    </div>
-    <div class="profile-info">
-      <div class="profile-username">{{ user.username }}</div>
-      <div class="profile-actions">
-        <a href="/logout/" class="btn profile-logout">Выйти</a>
-      </div>
-    </div>
-  </div>
-  <div class="profile-orca-status" style="text-align:center; margin: 20px 0; font-size: 1.2em;">
-    🐋 <b>Статус касатки:</b> {{ orca_status }}
-  </div>
-  <div class="profile-stats-row">
-    <div class="profile-stats-card">
-      <span class="profile-stats-icon">🧩</span>
-      <div>
-        <div class="profile-stats-label">Пройдено тестов</div>
-        <div class="profile-stats-value">{{ games|length }}</div>
-      </div>
-    </div>
-    <div class="profile-stats-card">
-      <span class="profile-stats-icon">⏰</span>
-      <div>
-        <div class="profile-stats-label">Последний тест</div>
-        <div class="profile-stats-value">{% if games %}{{ games.0.name }}<br><span class="profile-stats-date">{{ games.0.created_at|date:"d.m.Y H:i" }}</span>{% else %}—{% endif %}</div>
-      </div>
-    </div>
-  </div>
-  <div class="profile-progress-title">Ваш прогресс по тестам</div>
-  <div class="profile-progress-list">
-    {% if games %}
-      {% for game in games %}
-        <div class="profile-progress-card">
-          <div class="progress-test-name">📝 {{ game.name }}</div>
-          <div class="progress-test-date">{{ game.created_at|date:"d.m.Y H:i" }}</div>
-          <div class="progress-test-result">Результат: <b>{{ game.percent }}%</b></div>
+{% extends 'base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div class="profile-bg fade-in" style="min-height: 80vh; padding-top: 32px;">
+    <div class="container d-flex flex-column align-items-center justify-content-center" style="max-width: 700px;">
+        <div class="profile-card card shadow" style="width: 100%; border-radius: 22px; padding: 32px 28px; margin-bottom: 32px;">
+            <div class="d-flex align-items-center mb-4">
+                <div class="profile-avatar me-4">
+                    <img src="/static/Logo.png" alt="Аватар пользователя" style="width: 90px; height: 90px; border-radius: 50%; box-shadow: 0 2px 12px #b2ebf2; background: #fff;">
+                </div>
+                <div>
+                    <div class="profile-username" style="font-size: 1.6em; font-weight: 700; color: #0288d1;">{{ user.username }}</div>
+                    <div class="profile-email" style="color: #666;">{{ user.email }}</div>
+                    <div class="profile-level mt-2">Уровень: <b>{{ progress.level_name }}</b></div>
+                    <div class="profile-status">Статус: <b>
+                        {% if completed_tests == 0 %}Малыш касатка
+                        {% elif completed_tests == 1 %}Юная касатка
+                        {% elif completed_tests <= 3 %}Опытная касатка
+                        {% else %}Супер касатка
+                        {% endif %}
+                    </b></div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3" style="gap: 12px;">
+                <a href="{% url 'achievements' %}" class="btn btn-outline-warning" style="font-weight: 600;">
+                    <i class="fa fa-trophy me-2"></i>Мои достижения
+                </a>
+                <a href="{% url 'logout' %}" class="btn btn-outline-danger" style="font-weight: 600;">
+                    <i class="fa fa-sign-out-alt me-2"></i>Выйти
+                </a>
+            </div>
+            <div class="profile-stats-row row text-center mb-4" style="gap: 0;">
+                <div class="col-6 col-md-3 profile-stats-card mb-2">
+                    <div class="profile-stats-icon">🎵</div>
+                    <div class="profile-stats-label">Звуков</div>
+                    <div class="profile-stats-value">{{ progress.sounds_listened }}</div>
+                </div>
+                <div class="col-6 col-md-3 profile-stats-card mb-2">
+                    <div class="profile-stats-icon">📝</div>
+                    <div class="profile-stats-label">Тестов</div>
+                    <div class="profile-stats-value">{{ progress.tests_completed }}</div>
+                </div>
+                <div class="col-6 col-md-3 profile-stats-card mb-2">
+                    <div class="profile-stats-icon">✅</div>
+                    <div class="profile-stats-label">Верных</div>
+                    <div class="profile-stats-value">{{ progress.correct_answers }}</div>
+                </div>
+                <div class="col-6 col-md-3 profile-stats-card mb-2">
+                    <div class="profile-stats-icon">📚</div>
+                    <div class="profile-stats-label">Фактов</div>
+                    <div class="profile-stats-value">{{ progress.facts_learned }}</div>
+                </div>
+            </div>
+            <div class="profile-progress-title mb-1" style="font-weight: 600;">Прогресс до следующего уровня</div>
+            <div class="progress mb-2" style="height: 22px; background: #e0f7fa;">
+                <div class="progress-bar bg-info" role="progressbar" 
+                     style="width: {{ progress.progress_percentage }}%; font-weight: 600; font-size: 1.1em;"
+                     aria-valuenow="{{ progress.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                    {{ progress.progress_percentage }}%
+                </div>
+            </div>
+            <div class="profile-stats-date text-muted small mb-0">
+                {{ progress.xp }} / {{ progress.next_level_xp }} XP
+            </div>
         </div>
-      {% endfor %}
-    {% else %}
-      <div class="profile-no-tests">
-        <span class="no-tests-emoji">🌊</span>
-        <div>Вы ещё не проходили тесты.<br>Начните с любого теста на сайте!</div>
-      </div>
-    {% endif %}
-  </div>
+
+        <div class="profile-progress-list w-100 d-flex flex-column align-items-center" style="max-width: 700px;">
+            <h2 class="profile-progress-title mb-4 text-center" style="font-size: 1.3em; font-weight: 700; color: #0288d1;">История тестов</h2>
+            {% if games %}
+                {% for game in games %}
+                <div class="profile-progress-card card mb-4 p-3" style="border-radius: 16px; box-shadow: 0 2px 12px #b2ebf2; width: 90%; max-width: 420px; margin: 0 auto;">
+                    <div class="progress-test-name mb-2" style="font-weight: 700; font-size: 1.15em; color: #1693c7; text-align: center;">{{ game.name }}</div>
+                    <div class="progress mb-2" style="height: 18px; background: #e0f7fa;">
+                        <div class="progress-bar {% if game.percent >= 80 %}bg-success{% elif game.percent >= 60 %}bg-warning{% else %}bg-danger{% endif %}" 
+                             role="progressbar" 
+                             style="width: {{ game.percent }}%; font-weight: 600;"
+                             aria-valuenow="{{ game.percent }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ game.percent }}%
+                        </div>
+                    </div>
+                    <div class="progress-test-date text-muted text-center" style="font-size: 1em;">
+                        Пройден {{ game.created_at|date:"d.m.Y H:i" }}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="profile-no-tests text-center p-4">
+                    <span class="no-tests-emoji" style="font-size: 2.2em;">🐬</span>
+                    <div class="mt-2">Вы еще не проходили тесты. <a href="{% url 'tests' %}">Начать обучение</a></div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
-{% include "footer.html" %} 
+{% include 'footer.html' %}
+{% endblock %} 

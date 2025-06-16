@@ -1,15 +1,58 @@
-{% include "header.html" %}
-<div class="login-bg fade-in">
-    <div class="login-container card">
-        <h1 class="login-title">Вход</h1>
-        <form method="post" class="login-form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn">Войти</button>
-        </form>
-        <div style="text-align:center;margin-top:18px;">
-            Нет аккаунта? <a href="/register/">Зарегистрироваться</a>
+{% extends 'base.html' %}
+
+{% block title %}Вход - EchoAdventures{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Вход в систему</h2>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                Пожалуйста, исправьте ошибки ниже.
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">Имя пользователя</label>
+                            {{ form.username.errors }}
+                            <input type="text" name="{{ form.username.name }}" 
+                                   id="{{ form.username.id_for_label }}" 
+                                   class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+                                   value="{{ form.username.value|default:'' }}"
+                                   required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password.id_for_label }}" class="form-label">Пароль</label>
+                            {{ form.password.errors }}
+                            <input type="password" name="{{ form.password.name }}" 
+                                   id="{{ form.password.id_for_label }}" 
+                                   class="form-control {% if form.password.errors %}is-invalid{% endif %}"
+                                   required>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Войти
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <p class="mb-0">Нет аккаунта? 
+                            <a href="{% url 'register' %}" class="text-decoration-none">Зарегистрироваться</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-{% include "footer.html" %} 
+{% endblock %} 

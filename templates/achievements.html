@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Достижения{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Прогресс пользователя -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Ваш прогресс</h5>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" 
+                             style="width: {{ progress.progress_percentage }}%"
+                             aria-valuenow="{{ progress.progress_percentage }}" 
+                             aria-valuemin="0" aria-valuemax="100">
+                            {{ progress.progress_percentage }}%
+                        </div>
+                    </div>
+                    <p class="card-text">
+                        <strong>Уровень:</strong> {{ progress.level_name }}<br>
+                        <strong>Опыт:</strong> {{ progress.xp }} / {{ progress.next_level_xp }} XP<br>
+                        <strong>Прослушано звуков:</strong> {{ progress.sounds_listened }}<br>
+                        <strong>Пройдено тестов:</strong> {{ progress.tests_completed }}<br>
+                        <strong>Правильных ответов:</strong> {{ progress.correct_answers }}<br>
+                        <strong>Изучено фактов:</strong> {{ progress.facts_learned }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Достижения -->
+        <div class="col-md-8">
+            <h2 class="mb-4">Достижения</h2>
+            <div class="row">
+                {% for achievement_data in achievements %}
+                {% with achievement=achievement_data.achievement %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 {% if achievement_data.completed %}border-success{% endif %}">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                {% if achievement.icon %}
+                                <img src="{{ achievement.icon.url }}" alt="{{ achievement.name }}" 
+                                     class="me-3" style="width: 64px; height: 64px;">
+                                {% endif %}
+                                <div>
+                                    <h5 class="card-title mb-1">{{ achievement.name }}</h5>
+                                    <p class="card-text text-muted small mb-0">
+                                        {{ achievement.get_type_display }}
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="card-text">{{ achievement.description }}</p>
+                            <div class="progress mb-2">
+                                <div class="progress-bar {% if achievement_data.completed %}bg-success{% endif %}" 
+                                     role="progressbar" 
+                                     style="width: {{ achievement_data.percent }}%"
+                                     aria-valuenow="{{ achievement_data.progress }}" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="{{ achievement.requirement }}">
+                                    {{ achievement_data.progress }}/{{ achievement.requirement }}
+                                </div>
+                            </div>
+                            {% if achievement_data.completed %}
+                            <p class="card-text text-success mb-0">
+                                <small>Получено {{ achievement_data.date_earned|date:"d.m.Y" }}</small>
+                            </p>
+                            {% endif %}
+                            <p class="card-text text-muted small mt-2">
+                                Награда: {{ achievement.xp_reward }} XP
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
