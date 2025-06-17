@@ -1,5 +1,6 @@
-{% include "header.html" %}
-<div class="take-test-bg fade-in">
+{% extends "base.html" %}
+{% block content %}
+<div class="take-test-bg fade-in ocean-bg" style="position: relative; overflow: hidden;">
     <div class="take-test-container-modern">
         <h1 class="take-test-title">📝 {{ test.name }}</h1>
         {% if result %}
@@ -17,8 +18,13 @@
         {% else %}
             <form method="post" class="take-test-form">
                 {% csrf_token %}
-                <div class="take-test-progress">Вопрос {{ q_idx }} из {{ total_questions }}</div>
-                <div class="take-test-question">{{ questions.0.text }}</div>
+                <div style="display: flex; align-items: flex-start; gap: 18px; margin-bottom: 18px;">
+                    <img src="/media/questions/две_касатки_милые.jpg" alt="Милая касатка" style="width: 90px; height: 90px; border-radius: 50%; box-shadow: 0 2px 12px #b2ebf2; background: #fff; object-fit: cover;">
+                    <div class="orca-question-bubble" style="background: #e0f7fa; border-radius: 18px; padding: 18px 22px; box-shadow: 0 2px 12px #b2ebf2; font-size: 1.15em; font-weight: 600; color: #0288d1; min-width: 180px; max-width: 420px;">
+                        <div class="take-test-progress" style="color: #1693c7; font-size: 0.98em; margin-bottom: 6px;">Вопрос {{ q_idx }} из {{ total_questions }}</div>
+                        <div class="take-test-question">{{ questions.0.text }}</div>
+                    </div>
+                </div>
                 {% if questions.0.image %}
                     <img src="{{ questions.0.image.url }}" class="take-test-img" alt="Вопрос">
                 {% endif %}
@@ -38,4 +44,4 @@
         {% endif %}
     </div>
 </div>
-{% include "footer.html" %} 
+{% endblock %} 

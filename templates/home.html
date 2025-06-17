@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="ru">
-{% include "header.html" %}
-<body>
+{% extends "base.html" %}
+{% block content %}
     <div class="container fade-in">
         <h1>Добро пожаловать в мир касаток!</h1>
         <img src="static/scale_1200.jpg" alt="Касатки" class="orca-img">
@@ -26,6 +24,4 @@
             На нашем сайте вы сможете узнать больше о типах звуков и их значении.
         </p>
     </div>
-    {% include "footer.html" %}
-</body>
-</html> 
+{% endblock %} 

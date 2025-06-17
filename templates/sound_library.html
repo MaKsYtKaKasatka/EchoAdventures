@@ -1,4 +1,5 @@
-{% include "header.html" %}
+{% extends "base.html" %}
+{% block content %}
 <div class="sound-library-bg fade-in">
     <div class="container">
         <h1 class="sound-library-title">🐬 Библиотека звуков касаток</h1>
@@ -26,7 +27,7 @@
         </div>
     </div>
 </div>
-{% include "footer.html" %}
+{% endblock %}
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

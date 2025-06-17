@@ -17,18 +17,31 @@
       }
     </script>
 </head>
-<body style="background: var(--color-bg); min-height: 100vh;">
-<div class="site-wrapper">
+<body style="background: transparent; min-height: 100vh; display: flex; flex-direction: column;">
+<div class="parallax-bg">
+  <div id="particles-js"></div>
+  <div class="parallax-layer layer-water"></div>
+  <div class="parallax-layer layer-fish"></div>
+  <div class="parallax-layer layer-orca"></div>
+  <svg class="waves" viewBox="0 0 1440 120">
+    <path id="wave1" fill="#4fc3f7" fill-opacity="0.4" d="M0,60 Q360,100 720,60 T1440,60 V120 H0 Z"></path>
+    <path id="wave2" fill="#0288d1" fill-opacity="0.2" d="M0,80 Q360,40 720,80 T1440,80 V120 H0 Z"></path>
+  </svg>
+</div>
+<div class="site-wrapper" style="flex: 1 0 auto; display: flex; flex-direction: column; min-height: 100vh;">
 <header class="header">
     <div class="logo">
         <img src="/static/Logo.png" alt="Логотип EchoAdventures" class="logo-img">
-        EchoAdventures
+        <span class="logo-text">EchoAdventures</span>
     </div>
     <nav class="nav">
-        <a href="/"{% if request.path == '/' %} class="active"{% endif %}>🌊 Главная</a>
-        <a href="/about/">🐋 О касатках</a>
-        <a href="/library/">🎵 Библиотека звуков</a>
-        <a href="/tests/">📝 Тесты</a>
+        <div class="nav-main" style="display: flex; gap: 8px;">
+            <a href="/"{% if request.path == '/' %} class="active"{% endif %}>🌊 Главная</a>
+            <a href="/about/">🐋 О касатках</a>
+            <a href="/library/">🎵 Библиотека звуков</a>
+            <a href="/tests/">📝 Тесты</a>
+        </div>
+        <div class="nav-auth" style="display: flex; gap: 8px; margin-left: auto;">
         {% if user.is_authenticated %}
             <a href="/profile/" class="auth-sep">👤 Профиль</a>
             <a href="/logout/">🚪 Выйти</a>
@@ -36,14 +49,13 @@
             <a href="/login/" class="auth-sep">Войти</a>
             <a href="/register/">Регистрация</a>
         {% endif %}
+        </div>
     </nav>
     <div class="theme-switch" id="themeSwitch" onclick="toggleTheme()">
       <span class="switch-icon" id="themeIcon">🌙</span>
     </div>
 </header>
-</div>
-
-<main class="main-content" style="padding: 0; background: none; min-height: 70vh;">
+<main class="main-content" style="padding: 0; background: none; flex: 1 0 auto;">
     {% if messages %}
         <div class="container">
             {% for message in messages %}
@@ -54,16 +66,83 @@
             {% endfor %}
         </div>
     {% endif %}
-    {% block content %}{% endblock %}
+    {% block content %}
+        {% if request.path == '/profile/' %}
+        <div id="particles-js-profile" style="position:absolute; inset:0; z-index:0; pointer-events:none;"></div>
+        <script>
+        function initProfileParticles() {
+          var el = document.getElementById('particles-js-profile');
+          if (!el) return;
+          var lightBubble = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><circle cx='16' cy='16' r='14' fill='%23b2ebf2' stroke='black' stroke-width='2'/><ellipse cx='11' cy='11' rx='5' ry='2.5' fill='white' fill-opacity='0.7'/></svg>";
+          var darkBubble = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><circle cx='16' cy='16' r='14' fill='%23374b5c' stroke='black' stroke-width='2'/><ellipse cx='11' cy='11' rx='5' ry='2.5' fill='%23e3f6fd' fill-opacity='0.7'/></svg>";
+          var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          var bubbleSrc = isDark ? darkBubble : lightBubble;
+          particlesJS('particles-js-profile', {
+            "particles": {
+              "number": { "value": 18 },
+              "color": { "value": "#0288d1" },
+              "shape": {
+                "type": "image",
+                "image": {
+                  "src": bubbleSrc,
+                  "width": 32,
+                  "height": 32
+                }
+              },
+              "opacity": { "value": 0.32, "random": true },
+              "size": { "value": 16, "random": true },
+              "move": { "enable": true, "speed": 1.2, "direction": "top", "straight": false, "out_mode": "out" }
+            },
+            "interactivity": {
+              "detect_on": "canvas",
+              "events": {
+                "onhover": { "enable": false },
+                "onclick": { "enable": false }
+              }
+            },
+            "background": {
+              "color": isDark ? "#102840" : "#e3f6fd"
+            }
+          });
+          setTimeout(function() {
+            var header = document.querySelector('.header');
+            var canvas = document.querySelector('#particles-js-profile canvas');
+            if (header && canvas) {
+              var headerHeight = header.offsetHeight;
+              canvas.style.position = 'absolute';
+              canvas.style.top = headerHeight + 'px';
+              canvas.style.height = 'calc(100vh - ' + headerHeight + 'px)';
+            }
+          }, 500);
+        }
+        window.initProfileParticles = initProfileParticles;
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initProfileParticles);
+        } else {
+          initProfileParticles();
+        }
+        </script>
+        {% endif %}
+    {% endblock %}
 </main>
-
 {% include 'footer.html' %}
+</div>
 
 <!-- Bootstrap JS Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+function reinitParticles() {
+  var el = document.getElementById('particles-js');
+  if (el) {
+    var oldCanvas = el.querySelector('canvas');
+    if (oldCanvas) el.removeChild(oldCanvas);
+  }
+  if (typeof initParticles === 'function') {
+    setTimeout(initParticles, 100);
+  }
+}
 function toggleTheme() {
   const root = document.documentElement;
   const current = root.getAttribute('data-theme');
@@ -76,6 +155,7 @@ function toggleTheme() {
     localStorage.setItem('theme', 'dark');
     document.getElementById('themeIcon').textContent = '🌞';
   }
+  reinitParticles();
 }
 window.addEventListener('DOMContentLoaded', function() {
   if (document.documentElement.getAttribute('data-theme') === 'dark') {
@@ -84,5 +164,152 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% block extra_js %}{% endblock %}
+<script>
+// Параллакс-эффект
+window.addEventListener('scroll', function() {
+  const scrolled = window.scrollY;
+  const lw = document.querySelector('.layer-water');
+  const lf = document.querySelector('.layer-fish');
+  const lo = document.querySelector('.layer-orca');
+  if (lw) lw.style.transform = `translateY(${scrolled * 0.1}px)`;
+  if (lf) lf.style.transform = `translateY(${scrolled * 0.2}px)`;
+  if (lo) lo.style.transform = `translateY(${scrolled * 0.3}px)`;
+});
+// Анимация волн
+function animateWave(id, keyframes) {
+  const wave = document.getElementById(id);
+  let t = 0;
+  function animate() {
+    t += 0.02;
+    const d = keyframes(t);
+    if (wave) wave.setAttribute('d', d);
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+animateWave('wave1', t => `M0,60 Q360,${100+10*Math.sin(t)} 720,${60+10*Math.cos(t)} T1440,60 V120 H0 Z`);
+animateWave('wave2', t => `M0,80 Q360,${40+8*Math.cos(t/2)} 720,${80+8*Math.sin(t/2)} T1440,80 V120 H0 Z`);
+</script>
+<script src="/static/particles.min.js"></script>
+<script>
+console.log('particles.js script loaded');
+(function() {
+  function initParticles() {
+    console.log('initParticles called');
+    if (typeof particlesJS !== 'function') {
+      console.error('particlesJS is not a function!');
+      return;
+    }
+    var el = document.getElementById('particles-js');
+    if (!el) {
+      console.error('Контейнер #particles-js не найден!');
+      return;
+    }
+    var lightBubble = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><circle cx='16' cy='16' r='14' fill='%23b2ebf2' stroke='black' stroke-width='2'/><ellipse cx='11' cy='11' rx='5' ry='2.5' fill='white' fill-opacity='0.7'/></svg>";
+    var darkBubble = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><circle cx='16' cy='16' r='14' fill='%23374b5c' stroke='black' stroke-width='2'/><ellipse cx='11' cy='11' rx='5' ry='2.5' fill='%23e3f6fd' fill-opacity='0.7'/></svg>";
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var bubbleSrc = isDark ? darkBubble : lightBubble;
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 28 },
+        "color": { "value": "#0288d1" },
+        "shape": {
+          "type": "image",
+          "image": {
+            "src": bubbleSrc,
+            "width": 32,
+            "height": 32
+          }
+        },
+        "opacity": { "value": 0.32, "random": true },
+        "size": { "value": 16, "random": true },
+        "move": { "enable": true, "speed": 1.2, "direction": "top", "straight": false, "out_mode": "out" }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": false },
+          "onclick": { "enable": false }
+        }
+      },
+      "background": {
+        "color": isDark ? "#102840" : "#e3f6fd"
+      }
+    });
+    // Ограничиваем canvas по высоте, чтобы пузыри не заплывали на header
+    setTimeout(function() {
+      var header = document.querySelector('.header');
+      var canvas = document.querySelector('#particles-js canvas');
+      if (header && canvas) {
+        var headerHeight = header.offsetHeight;
+        canvas.style.position = 'absolute';
+        canvas.style.top = headerHeight + 'px';
+        canvas.style.height = 'calc(100vh - ' + headerHeight + 'px)';
+      }
+    }, 500);
+    // Перерисовываем пузыри при смене темы
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'theme') location.reload();
+    });
+    var themeSwitch = document.getElementById('themeSwitch');
+    console.log('particlesJS инициализирован!');
+  }
+  window.initParticles = initParticles;
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initParticles);
+  } else {
+    initParticles();
+  }
+})();
+</script>
+<style>
+#particles-js {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.bubbles-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border: none !important;
+}
+.bubble {
+  position: absolute;
+  bottom: -80px;
+  border-radius: 50%;
+  background: #4fc3f7;
+  opacity: 0.35;
+  animation: bubble-up 7s linear infinite;
+  box-shadow: 0 0 18px 6px #b2ebf2;
+}
+@keyframes bubble-up {
+  0% { transform: translateY(0) scale(1); opacity: 0.35; }
+  80% { opacity: 0.35; }
+  100% { transform: translateY(-120vh) scale(1.3); opacity: 0; }
+}
+html, body, .site-wrapper {
+  background: transparent !important;
+}
+.nav {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+}
+.nav-main {
+  display: flex;
+  gap: 8px;
+}
+.nav-auth {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+</style>
 </body>
 </html> 
