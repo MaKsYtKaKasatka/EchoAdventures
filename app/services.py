@@ -43,19 +43,21 @@ class AchievementService:
         """Записывает уникальное прослушивание звука и обновляет прогресс"""
         with transaction.atomic():
             if sound_id is not None:
-                # Проверяем, слушал ли пользователь этот звук
+                sound_id = int(sound_id)
                 if not UserSound.objects.filter(user=user, sound_id=sound_id).exists():
                     UserSound.objects.create(user=user, sound_id=sound_id)
+                    print(f'UserSound создан: user={user}, sound_id={sound_id}')
                     progress = UserProgress.objects.get_or_create(user=user)[0]
                     progress.sounds_listened = UserSound.objects.filter(user=user).count()
-                    progress.add_xp(10)  # 10 XP за уникальное прослушивание
+                    progress.add_xp(50)  # 50 XP за уникальное прослушивание
+                    print(f'XP начислено: user={user}, sound_id={sound_id}, XP=50, всего прослушано={progress.sounds_listened}')
                     progress.save()
                     AchievementService.check_achievements(user)
             else:
                 # Старый режим (без конкретного звука)
                 progress = UserProgress.objects.get_or_create(user=user)[0]
                 progress.sounds_listened += 1
-                progress.add_xp(10)
+                progress.add_xp(50)
                 progress.save()
                 AchievementService.check_achievements(user)
 

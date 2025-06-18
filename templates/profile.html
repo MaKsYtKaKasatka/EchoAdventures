@@ -96,4 +96,21 @@
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}
+<script>
+// Автообновление прогресса профиля
+function updateProfileProgress() {
+    fetch('/profile/progress/')
+        .then(response => response.json())
+        .then(data => {
+            document.querySelectorAll('.profile-stats-value')[0].textContent = data.sounds_listened;
+            document.querySelectorAll('.profile-stats-value')[1].textContent = data.tests_completed;
+            document.querySelectorAll('.profile-stats-value')[2].textContent = data.correct_answers;
+            document.querySelectorAll('.profile-stats-value')[3].textContent = data.facts_learned;
+            document.querySelector('.progress-bar.bg-info').style.width = data.progress_percentage + '%';
+            document.querySelector('.progress-bar.bg-info').textContent = data.progress_percentage + '%';
+            document.querySelector('.profile-stats-date').textContent = data.xp + ' / ' + data.next_level_xp + ' XP';
+        });
+}
+setInterval(updateProfileProgress, 2000);
+</script> 

@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from app.views import home, sound_library, about, tests, register_view, login_view, logout_view, profile, take_test, achievements
+from app.views import home, sound_library, about, tests, register_view, login_view, logout_view, profile, take_test, achievements, profile_progress_api
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -33,6 +33,7 @@ urlpatterns = [
     path("logout/", logout_view, name="logout"),
     path("profile/", profile, name="profile"),
     path("achievements/", achievements, name="achievements"),
+    path("profile/progress/", profile_progress_api, name="profile_progress_api"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

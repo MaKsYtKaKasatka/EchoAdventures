@@ -29,13 +29,18 @@
 </div>
 {% endblock %}
 
+{% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.sound-modern-audio').forEach(function(audio) {
-        audio.addEventListener('ended', function() {
+window.onload = function() {
+    var audios = document.querySelectorAll('audio.sound-modern-audio');
+    console.log('Найдено аудио:', audios.length);
+    audios.forEach(function(audio, idx) {
+        console.log('audio[' + idx + ']:', audio.getAttribute('data-sound-id'));
+        audio.onended = function() {
             var soundId = this.getAttribute('data-sound-id');
             var card = this.closest('.sound-modern-card');
-            if (card.classList.contains('listened')) return; // Уже отмечено
+            console.log('Аудио закончилось!', soundId);
+            if (card.classList.contains('listened')) return;
             fetch(window.location.pathname, {
                 method: 'POST',
                 headers: {
@@ -47,11 +52,24 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    card.classList.add('listened');
-                    card.querySelector('.sound-listened-mark').style.display = '';
+                    document.querySelectorAll('.sound-modern-card').forEach(function(card) {
+                        var sid = card.getAttribute('data-sound-id');
+                        if (data.listened_ids.includes(Number(sid)) || data.listened_ids.includes(sid)) {
+                            card.classList.add('listened');
+                            card.querySelector('.sound-listened-mark').style.display = '';
+                        } else {
+                            card.classList.remove('listened');
+                            card.querySelector('.sound-listened-mark').style.display = 'none';
+                        }
+                    });
+                } else {
+                    alert('Ошибка сервера: ' + JSON.stringify(data));
                 }
+            })
+            .catch(err => {
+                alert('Ошибка запроса: ' + err);
             });
-        });
+        };
     });
     function getCookie(name) {
         let cookieValue = null;
@@ -67,5 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return cookieValue;
     }
-});
-</script> 
+};
+</script>
+{% endblock %} 

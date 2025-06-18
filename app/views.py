@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .services import AchievementService
 from .django_models import UserProgress, UserAchievement, UserSound
+from django.views.decorators.http import require_GET
 
 # Create your views here.
 
@@ -27,9 +28,10 @@ def sound_library(request):
     sounds = Voices.objects.all()
     listened_ids = list(UserSound.objects.filter(user=request.user).values_list('sound_id', flat=True))
     if request.method == 'POST' and 'sound_id' in request.POST:
-        # Записываем уникальное прослушивание звука
+        print('POST пришёл:', request.POST, 'Пользователь:', request.user)
         AchievementService.record_sound_listened(request.user, sound_id=request.POST['sound_id'])
-        return JsonResponse({'status': 'success'})
+        listened_ids = list(UserSound.objects.filter(user=request.user).values_list('sound_id', flat=True))
+        return JsonResponse({'status': 'success', 'listened_ids': listened_ids})
     return render(request, 'sound_library.html', {'sounds': sounds, 'listened_ids': listened_ids})
 
 def about(request):
@@ -156,3 +158,9 @@ def achievements(request):
         'achievements': achievements,
         'progress': progress
     })
+
+@require_GET
+@login_required
+def profile_progress_api(request):
+    progress = AchievementService.get_user_progress(request.user)
+    return JsonResponse(progress)
