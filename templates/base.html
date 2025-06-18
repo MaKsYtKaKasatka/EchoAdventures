@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" style="overflow-x:hidden;width:100vw;max-width:100vw;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +17,7 @@
       }
     </script>
 </head>
-<body style="background: transparent; min-height: 100vh; display: flex; flex-direction: column;">
+<body style="background: transparent; min-height: 100vh; display: flex; flex-direction: column; overflow-x:hidden;width:100vw;max-width:100vw;">
 <div class="parallax-bg">
   <div id="particles-js"></div>
   <div class="parallax-layer layer-water"></div>
@@ -125,8 +125,19 @@
         {% endif %}
     {% endblock %}
 </main>
-{% include 'footer.html' %}
 </div>
+<footer>
+    <a href="mailto:info@example.com">Контакты</a>
+    <a href="/about/">О нас</a>
+    <a href="/privacy/">Политика конфиденциальности</a>
+    <div style="font-size: 14px; color: #aaa;">
+        &copy; EchoAdventures, {{ year|default:2024 }}. Все права защищены.
+    </div>
+</footer>
+<svg class="waves" viewBox="0 0 1920 120" style="position:fixed; left:0; right:0; bottom:0; width:100%; height:120px; z-index:1; pointer-events:none; margin:0; padding:0; border:none; overflow:visible;" preserveAspectRatio="none">
+  <path id="wave1" fill="#4fc3f7" fill-opacity="0.4" d="M0,60 Q480,100 960,60 T1920,60 V120 H0 Z"></path>
+  <path id="wave2" fill="#0288d1" fill-opacity="0.2" d="M0,80 Q480,40 960,80 T1920,80 V120 H0 Z"></path>
+</svg>
 
 <!-- Bootstrap JS Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
