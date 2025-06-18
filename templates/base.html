@@ -37,17 +37,17 @@
     <nav class="nav">
         <div class="nav-main" style="display: flex; gap: 8px;">
             <a href="/"{% if request.path == '/' %} class="active"{% endif %}>🌊 Главная</a>
-            <a href="/about/">🐋 О касатках</a>
-            <a href="/library/">🎵 Библиотека звуков</a>
-            <a href="/tests/">📝 Тесты</a>
+            <a href="/about/"{% if request.path|slice:':7' == '/about/' %} class="active"{% endif %}>🐋 О касатках</a>
+            <a href="/library/"{% if request.path|slice:':9' == '/library/' %} class="active"{% endif %}>🎵 Библиотека звуков</a>
+            <a href="/tests/"{% if request.path|slice:':7' == '/tests/' %} class="active"{% endif %}>📝 Тесты</a>
         </div>
         <div class="nav-auth" style="display: flex; gap: 8px; margin-left: auto;">
         {% if user.is_authenticated %}
-            <a href="/profile/" class="auth-sep">👤 Профиль</a>
-            <a href="/logout/">🚪 Выйти</a>
+            <a href="/profile/"{% if request.path|slice:':9' == '/profile/' %} class="active"{% endif %}>👤 Профиль</a>
+            <a href="/logout/"{% if request.path|slice:':8' == '/logout/' %} class="active"{% endif %}>🚪 Выйти</a>
         {% else %}
-            <a href="/login/" class="auth-sep">Войти</a>
-            <a href="/register/">Регистрация</a>
+            <a href="/login/"{% if request.path|slice:':7' == '/login/' %} class="active"{% endif %}>Войти</a>
+            <a href="/register/"{% if request.path|slice:':10' == '/register/' %} class="active"{% endif %}>Регистрация</a>
         {% endif %}
         </div>
     </nav>

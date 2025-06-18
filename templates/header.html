@@ -20,17 +20,17 @@
     <nav class="nav">
         <div class="nav-main">
             <a href="/"{% if request.path == '/' %} class="active"{% endif %}>🌊 Главная</a>
-            <a href="/about/">🐋 О касатках</a>
-            <a href="/library/">🎵 Библиотека звуков</a>
-            <a href="/tests/">📝 Тесты</a>
+            <a href="/about/"{% if request.path|slice:':7' == '/about/' %} class="active"{% endif %}>🐋 О касатках</a>
+            <a href="/library/"{% if request.path|slice:':9' == '/library/' %} class="active"{% endif %}>🎵 Библиотека звуков</a>
+            <a href="/tests/"{% if request.path|slice:':7' == '/tests/' %} class="active"{% endif %}>📝 Тесты</a>
         </div>
         <div class="nav-auth">
         {% if user.is_authenticated %}
-            <a href="/profile/">👤 Профиль</a>
-            <a href="/logout/">🚪 Выйти</a>
+            <a href="/profile/"{% if request.path|slice:':9' == '/profile/' %} class="active"{% endif %}>👤 Профиль</a>
+            <a href="/logout/"{% if request.path|slice:':8' == '/logout/' %} class="active"{% endif %}>🚪 Выйти</a>
         {% else %}
-            <a href="/login/">Войти</a>
-            <a href="/register/">Регистрация</a>
+            <a href="/login/"{% if request.path|slice:':7' == '/login/' %} class="active"{% endif %}>Войти</a>
+            <a href="/register/"{% if request.path|slice:':10' == '/register/' %} class="active"{% endif %}>Регистрация</a>
         {% endif %}
         </div>
     </nav>
@@ -70,39 +70,6 @@
     border-radius: 50%;
     margin-right: 10px;
 }
-.nav {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0;
-}
-.nav-main {
-    display: flex;
-    gap: 8px;
-}
-.nav-auth {
-    display: flex;
-    gap: 8px;
-    margin-left: auto;
-}
-.nav a {
-    background: linear-gradient(120deg, #e0f7fa 60%, #b2ebf2 100%);
-    color: #01579b;
-    border: 1.5px solid #b2ebf2;
-    border-radius: 10px;
-    padding: 6px 16px;
-    font-size: 1em;
-    min-width: 80px;
-    text-align: center;
-    margin: 0;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-}
-.nav a:hover {
-    background: #4fc3f7;
-    color: #fff;
-    border: 1.5px solid #b2ebf2;
-}
 .theme-switch {
     margin-left: 18px;
     cursor: pointer;
@@ -118,7 +85,6 @@
 @media (max-width: 900px) {
     .logo { font-size: 1.2em; }
     .logo-img { width: 32px; height: 32px; }
-    .nav a { font-size: 0.95em; padding: 4px 10px; min-width: 60px; }
 }
 </style>
 

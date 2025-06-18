@@ -91,12 +91,14 @@ def profile(request):
     # Получаем прогресс и достижения пользователя
     progress = AchievementService.get_user_progress(request.user)
     achievements = AchievementService.get_user_achievements(request.user)
+    xp_to_next_level = progress['next_level_xp'] - progress['xp']
     
     context = {
         'games': games,
         'progress': progress,
         'achievements': achievements,
         'completed_tests': completed_tests,
+        'xp_to_next_level': xp_to_next_level,
     }
     return render(request, 'profile.html', context)
 

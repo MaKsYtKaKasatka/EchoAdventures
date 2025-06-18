@@ -53,17 +53,18 @@
                     <div class="profile-stats-value">{{ progress.facts_learned }}</div>
                 </div>
             </div>
-            <div class="profile-progress-title mb-1" style="font-weight: 600;">Прогресс до следующего уровня</div>
-            <div class="progress mb-2" style="height: 22px; background: #e0f7fa;">
+            <div class="profile-progress-title mb-1" style="font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <span style="font-size: 1.1em; color: #0288d1;">🔵</span>
+                <span style="font-size: 1.25em; color: #0288d1;">Прогресс до следующего уровня</span>
+            </div>
+            <div class="progress mb-2" style="height: 28px; background: #e0f7fa; border-radius: 16px; overflow: hidden; position: relative;">
                 <div class="progress-bar bg-info" role="progressbar" 
-                     style="width: {{ progress.progress_percentage }}%; font-weight: 600; font-size: 1.1em;"
+                     style="width: {{ progress.progress_percentage }}%; font-weight: 700; font-size: 1.15em; display: flex; align-items: center; justify-content: center; transition: width 0.5s; color: #fff; text-shadow: 0 1px 4px #0288d1;"
                      aria-valuenow="{{ progress.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
                     {{ progress.progress_percentage }}%
                 </div>
             </div>
-            <div class="profile-stats-date text-muted small mb-0">
-                {{ progress.xp }} / {{ progress.next_level_xp }} XP
-            </div>
+            <div class="profile-stats-date text-muted small mb-0" style="text-align:center;">{{ progress.xp }} / {{ progress.next_level_xp }} XP</div>
         </div>
 
         <div class="profile-progress-list w-100 d-flex flex-column align-items-center" style="max-width: 700px;">

@@ -33,13 +33,13 @@
 <script>
 window.onload = function() {
     var audios = document.querySelectorAll('audio.sound-modern-audio');
-    console.log('Найдено аудио:', audios.length);
+    console.log('Найдено аудиофайлов:', audios.length);
     audios.forEach(function(audio, idx) {
-        console.log('audio[' + idx + ']:', audio.getAttribute('data-sound-id'));
+        console.log('Аудиофайл[' + idx + ']:', audio.getAttribute('data-sound-id'));
         audio.onended = function() {
             var soundId = this.getAttribute('data-sound-id');
             var card = this.closest('.sound-modern-card');
-            console.log('Аудио закончилось!', soundId);
+            console.log('Воспроизведение завершено!', soundId);
             if (card.classList.contains('listened')) return;
             fetch(window.location.pathname, {
                 method: 'POST',

@@ -170,18 +170,23 @@ body {
 .nav::-webkit-scrollbar {
   display: none;
 }
+.nav a, .nav a:hover, .nav a:focus, .nav a:active {
+  transform: none !important;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s !important;
+}
 .nav a {
   background: linear-gradient(120deg, #e0f7fa 60%, #b2ebf2 100%);
   color: #01579b;
-  border: 1.5px solid #0288d1;
+  border-width: 1.5px !important;
+  border-style: solid !important;
+  border-color: #0288d1 !important;
+  box-sizing: border-box !important;
   border-radius: 10px;
   padding: 6px 16px;
   font-size: 1em;
   min-width: 80px;
   text-align: center;
   margin: 0 6px;
-  transition: background 0.22s, color 0.22s, border-color 0.22s, transform 0.18s;
-  box-sizing: border-box;
   position: relative;
   z-index: 1;
   box-shadow: none;
@@ -189,18 +194,13 @@ body {
 .nav a:hover, .nav a:focus {
   background: #4fc3f7;
   color: #fff;
-  border: 1.5px solid #0288d1;
   outline: none;
-  transform: scale(1.07);
-  box-shadow: none;
 }
 .nav a.active,
 .nav a.active:hover {
-  background: transparent;
-  color: var(--color-bg-secondary);
-  border-color: transparent;
-  box-shadow: none;
-  transform: none;
+  background: #03a9f4 !important;
+  color: #fff !important;
+  border-color: #0288d1 !important;
   cursor: default;
 }
 .theme-switch {
@@ -379,7 +379,7 @@ h2 {
 }
 .card:hover, .fact-block:hover, .game-card:hover, .sound-card:hover, .about-fact-block:hover {
   box-shadow: 0 8px 32px var(--color-accent);
-  transform: translateY(-4px) scale(1.03);
+  transform: none !important;
 }
 .test-card:hover {
   box-shadow: none !important;
@@ -415,7 +415,7 @@ button, .btn {
 button:hover, .btn:hover {
   background: var(--color-accent);
   color: var(--color-primary);
-  transform: scale(1.04);
+  transform: none !important;
 }
 footer {
   box-sizing: border-box !important;
@@ -1171,6 +1171,11 @@ button:focus, button:active,
   min-height: 100vh;
 }
 
+.nav-btn, .nav-btn:hover, .nav-btn:focus, .nav-btn:active {
+  transform: none !important;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s !important;
+}
+
 .nav-btn {
     border: none;
     border-radius: 8px;
@@ -1184,11 +1189,6 @@ button:focus, button:active,
     align-items: center;
     gap: 8px;
     box-shadow: 0 1px 4px 0 rgba(0,0,0,0.04);
-    transition:
-        background 0.18s,
-        color 0.18s,
-        box-shadow 0.18s,
-        transform 0.13s;
     outline: none;
     cursor: pointer;
     position: relative;
@@ -1210,7 +1210,6 @@ button:focus, button:active,
     color: #00334d;
     background: rgba(255,255,255,0.32);
     box-shadow: 0 2px 12px 0 rgba(0,180,255,0.13), 0 0 0 2px #7ee8fa;
-    transform: translateY(-2px) scale(1.04);
 }
 
 .nav-btn:hover::after, .nav-btn:focus::after {
@@ -1220,7 +1219,6 @@ button:focus, button:active,
 .nav-btn:active {
     background: rgba(126,232,250,0.18);
     color: #04506e;
-    transform: scale(0.98);
     box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
 }
 
